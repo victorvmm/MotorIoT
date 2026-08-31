@@ -11,11 +11,8 @@ To-do list:
     * service: services (queue data, telemetry rule)
     * worker: queue messages, perform HTTP calls
 
- - Create docker-compose.yml for database
- - Create enums for message status (PENDING, SENT, FAILED)
- - Create DTO
  - Create notifications and telemetry endpoints
  - Add RabbitMQ to compose
- - Implement worker
+ - Implement worker + update docker-compose with MQ
  - Learn about DLQ and implement
  - Create IoT layer

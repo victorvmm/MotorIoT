@@ -1,12 +1,16 @@
 package com.freelance.motor.entity;
 
 import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -36,10 +40,11 @@ public class Messages {
 
     @JdbcTypeCode(SqlTypes.JSON)
     @Column(columnDefinition="jsonb", name="variables")
-    private Variable variables;
+    private Map<String,Object> variables;
 
     @Column(name="status_msg")
-    private String status_msg;
+    @Enumerated(EnumType.STRING)
+    private StatusEnum statusMsg;
 
     @Column(name="created_at")
     private LocalDateTime created_at;
@@ -49,13 +54,13 @@ public class Messages {
 
     public Messages(){}
 
-    public Messages(String channel, String recipient, String template, Variable variables, String status_msg,
+    public Messages(String channel, String recipient, String template,
             LocalDateTime created_at, LocalDateTime updated_at) {
         this.channel = channel;
         this.recipient = recipient;
         this.template = template;
-        this.variables = variables;
-        this.status_msg = status_msg;
+        this.variables = new HashMap<>();
+        this.statusMsg = StatusEnum.PENDING;
         this.created_at = created_at;
         this.updated_at = updated_at;
     }
@@ -69,7 +74,7 @@ public class Messages {
         sb.append(", recipient=").append(recipient);
         sb.append(", template=").append(template);
         sb.append(", variables=").append(variables);
-        sb.append(", status_msg=").append(status_msg);
+        sb.append(", statusMsg=").append(statusMsg);
         sb.append(", created_at=").append(created_at);
         sb.append(", updated_at=").append(updated_at);
         sb.append('}');
