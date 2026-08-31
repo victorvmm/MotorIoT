@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 public class TelemetryController {
     
     @PostMapping
-    public ResponseEntity<Void> postMethodName(@Valid @RequestBody TelemetryDTO request) {
+    public ResponseEntity<Void> receiveTelemetry(@Valid @RequestBody TelemetryDTO request) {
         return ResponseEntity.accepted().build();
     }
     
