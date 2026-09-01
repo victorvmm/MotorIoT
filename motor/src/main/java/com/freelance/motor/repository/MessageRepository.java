@@ -9,5 +9,5 @@ import com.freelance.motor.entity.Messages;
 public interface MessageRepository extends JpaRepository<Messages, Integer>{
     Optional<Messages> findById(int id);
 
-    boolean existsById(int id);
+    boolean existsByTelemetryId(int id);
 }

@@ -1,6 +1,5 @@
 package com.freelance.motor.entity;
 
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 import jakarta.persistence.Column;
@@ -27,14 +26,14 @@ public class Telemetry {
     private String truckId;
 
     @Column(name="temperature")
-    private BigDecimal temperature;
+    private double temperature;
 
     @Column(name="checkedAt")
     private LocalDateTime checkedAt;
 
     public Telemetry(){}
 
-    public Telemetry(String truckId, BigDecimal temperature, LocalDateTime checkedAt) {
+    public Telemetry(String truckId, double temperature, LocalDateTime checkedAt) {
         this.truckId = truckId;
         this.temperature = temperature;
         this.checkedAt = checkedAt;

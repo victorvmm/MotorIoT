@@ -9,5 +9,5 @@ public record TelemetryDTO (
     String truckId,
 
     @NotNull(message="Leitura de temperatura obrigatória")
-    Double temperature
+    double temperature
 ){}
