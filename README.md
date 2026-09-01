@@ -11,7 +11,7 @@ To-do list:
     * service: services (queue data, telemetry rule)
     * worker: queue messages, perform HTTP calls
 
- - Add service and repository layer
+ - Implement service and repository layers
  - Add exceptions
  - Add RabbitMQ to compose
  - Implement worker + update docker-compose with MQ
