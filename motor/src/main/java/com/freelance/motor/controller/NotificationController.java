@@ -26,8 +26,8 @@ public class NotificationController {
 
     @PostMapping
     public ResponseEntity<Messages> receiveNotification(@Valid @RequestBody NotificationDTO request) {
-        Messages message = messageService.registerNotification(request, null);
-        return ResponseEntity.status(HttpStatus.CREATED).body(message);
+        messageService.registerNotification(request);
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
     
 }

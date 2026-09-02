@@ -12,8 +12,6 @@ Motor de notificações via serviço de mensageria + IoT
    * worker: queue messages, perform HTTP calls
 
 ## Current:
- - Implement repository layers
- - Turn applications.properties visible, place all environment variables in .env
 
 
 ## Future:
