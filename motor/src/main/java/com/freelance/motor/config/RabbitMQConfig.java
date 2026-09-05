@@ -13,6 +13,9 @@ import org.springframework.retry.annotation.EnableRetry;
 @Configuration
 @EnableRetry 
 public class RabbitMQConfig {
+    public static final String DLQ_NAME = "notification.dlq";
+    public static final String DLX_NAME = "notification.dlx";
+
     public static final String QUEUE_NAME = "notification.queue";
     public static final String EXCHANGE = "notification.exchange";
     public static final String ROUTING_KEY = "notification.routing.key";
@@ -35,5 +38,20 @@ public class RabbitMQConfig {
     @Bean 
     public MessageConverter jsonMessageConverter(){
         return new JacksonJsonMessageConverter();
+    }
+
+    @Bean
+    public Queue dlq() {
+        return new Queue(DLQ_NAME, true);
+    }
+
+    @Bean
+    public DirectExchange dlx() {
+        return new DirectExchange(DLX_NAME);
+    }
+
+    @Bean
+    public Binding dlqBinding() {
+        return BindingBuilder.bind(dlq()).to(dlx()).with(DLQ_NAME);
     }
 }

@@ -1,8 +1,10 @@
 package com.freelance.motor.worker;
 
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
-import org.springframework.resilience.annotation.Retryable;
+import org.springframework.retry.annotation.Backoff;
+import org.springframework.retry.annotation.Retryable;
 import org.springframework.stereotype.Component;
+import org.springframework.web.client.RestClientException;
 
 import com.freelance.motor.config.RabbitMQConfig;
 import com.freelance.motor.entity.Messages;
@@ -17,16 +19,18 @@ public class RabbitMQWorker {
         this.messageRepository = messageRepository;
     }
 
-    @Retryable 
-    @RabbitListener(queues=RabbitMQConfig.QUEUE_NAME)
+    @RabbitListener(queues = RabbitMQConfig.QUEUE_NAME)
+    @Retryable(
+      maxAttempts = 3,
+      backoff = @Backoff(delay = 2000, multiplier = 2)
+    )
     public void processNotification(Messages message){
         System.out.println("Processing notification - ID: " + message.getId() + " to " + message.getChannel() + " channel.");
         try {
-            Thread.sleep(2000);
             message.setStatusMsg(StatusEnum.SENT);
             messageRepository.save(message);
             System.out.println("Message " + message.getId() + " sent successfully.");
-        } catch (Exception e){
+        } catch (RestClientException e){
             message.setStatusMsg(StatusEnum.FAILED);
             messageRepository.save(message);
             System.err.println("Notification sending failed " + message.getId());
