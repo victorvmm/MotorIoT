@@ -1,6 +1,7 @@
 package com.freelance.motor.worker;
 
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
+import org.springframework.resilience.annotation.Retryable;
 import org.springframework.stereotype.Component;
 
 import com.freelance.motor.config.RabbitMQConfig;
@@ -16,6 +17,7 @@ public class RabbitMQWorker {
         this.messageRepository = messageRepository;
     }
 
+    @Retryable 
     @RabbitListener(queues=RabbitMQConfig.QUEUE_NAME)
     public void processNotification(Messages message){
         System.out.println("Processing notification - ID: " + message.getId() + " to " + message.getChannel() + " channel.");

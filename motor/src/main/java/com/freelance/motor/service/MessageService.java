@@ -25,7 +25,6 @@ public class MessageService {
 
     @Transactional
     public void registerNotification(NotificationDTO dto){
-        // Re-queue (?) message if failed or still pending
         Messages message = new Messages(
                 dto.channel(), 
                 dto.recipient(),
@@ -36,4 +35,6 @@ public class MessageService {
         Messages savedMessage = msgRepo.save(message);
         rabbitTemplate.convertAndSend(RabbitMQConfig.EXCHANGE, RabbitMQConfig.ROUTING_KEY, savedMessage);
     }
+
+
 }
