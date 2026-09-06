@@ -4,6 +4,7 @@ import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.BindingBuilder;
 import org.springframework.amqp.core.DirectExchange;
 import org.springframework.amqp.core.Queue;
+import org.springframework.amqp.core.QueueBuilder;
 import org.springframework.amqp.support.converter.JacksonJsonMessageConverter;
 import org.springframework.amqp.support.converter.MessageConverter;
 import org.springframework.context.annotation.Bean;
@@ -19,10 +20,13 @@ public class RabbitMQConfig {
     public static final String QUEUE_NAME = "notification.queue";
     public static final String EXCHANGE = "notification.exchange";
     public static final String ROUTING_KEY = "notification.routing.key";
-
+   
     @Bean
-    public Queue queue(){
-        return new Queue(QUEUE_NAME, true); // lasting so if broker restarts, the queue doesnt
+    public Queue queue() {
+        return QueueBuilder.durable(QUEUE_NAME)
+                .withArgument("x-dead-letter-exchange", DLX_NAME)
+                .withArgument("x-dead-letter-routing-key", DLQ_NAME)
+                .build();
     }
 
     @Bean
