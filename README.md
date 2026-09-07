@@ -12,6 +12,5 @@ Motor de notificações via serviço de mensageria + IoT
    * worker: queue messages, perform HTTP calls
 
 ## Future implementations:
- - spring.rabbitmq.listener.simple.default-requeue-rejected=false to properties
  - Add exceptions
  - Create IoT layer
