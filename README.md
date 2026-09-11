@@ -13,9 +13,9 @@ Motor de notificações via serviço de mensageria + IoT
 
 ## On-going:
  - Learn and implement RestTemplate
- - Create IoT layer
 
 ## To-do list:
  - Create SES url for email sending
+ - Implement API receiving POST from ESP32 and sending to SES
  - Change db name
  - AWS deploy
