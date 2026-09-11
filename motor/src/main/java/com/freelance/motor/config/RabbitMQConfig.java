@@ -10,6 +10,7 @@ import org.springframework.amqp.support.converter.MessageConverter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.retry.annotation.EnableRetry;
+import org.springframework.web.client.RestTemplate;
 
 @Configuration
 @EnableRetry 
@@ -20,6 +21,11 @@ public class RabbitMQConfig {
     public static final String QUEUE_NAME = "notification.queue";
     public static final String EXCHANGE = "notification.exchange";
     public static final String ROUTING_KEY = "notification.routing.key";
+
+    @Bean
+    public RestTemplate restTemplate(){
+        return new RestTemplate();
+    }
    
     @Bean
     public Queue queue() {

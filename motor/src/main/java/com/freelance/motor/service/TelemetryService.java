@@ -18,15 +18,16 @@ import jakarta.transaction.Transactional;
 public class TelemetryService {
     private final TelemetryRepository teleRepo;
     private final MessageService msgService;
+
     private final double limit_temperature;
 
-    @Value("${email}")
-    private String email;
+    private final String email;
 
-    public TelemetryService(TelemetryRepository teleRepo, double limit, MessageService msgService) {
+    public TelemetryService(TelemetryRepository teleRepo, MessageService msgService, @Value("${limit_temp}") double value, @Value("${email}") String email) {
         this.teleRepo = teleRepo;
-        this.limit_temperature = limit;
         this.msgService = msgService;
+        this.limit_temperature = value;
+        this.email = email;
     }
 
     @Transactional

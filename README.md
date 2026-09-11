@@ -11,6 +11,11 @@ Motor de notificações via serviço de mensageria + IoT
    * service: services (queue data, telemetry rule)
    * worker: queue messages, perform HTTP calls
 
-## Future implementations:
- - Add exceptions
+## On-going:
+ - Learn and implement RestTemplate
  - Create IoT layer
+
+## To-do list:
+ - Create SES url for email sending
+ - Change db name
+ - AWS deploy
