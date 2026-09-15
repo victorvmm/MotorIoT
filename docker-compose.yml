@@ -19,8 +19,8 @@ services:
     container_name: motor-notificacoes-rabbitmq
     restart: always
     environment:
-      RABBITMQ_DEFAULT_USER: admin
-      RABBITMQ_DEFAULT_PASS: admin_password
+      RABBITMQ_DEFAULT_USER: ${MQ_USER}
+      RABBITMQ_DEFAULT_PASS: ${MQ_PASS}
     ports:
       - "5672:5672"
       - "15672:15672"
