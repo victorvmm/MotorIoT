@@ -19,18 +19,15 @@ public class ReprocessController {
         this.reprocessService = reprocessService;
     }
 
-    // Endpoint: POST /api/v1/notifications/{id}/reprocess
     @PostMapping("/{id}/reprocess")
     public ResponseEntity<String> reprocessMessage(@PathVariable int id) {
         try {
             Messages reprocessedMessage = reprocessService.reprocessFailedMessage(id);
-            return ResponseEntity.ok("Mensagem " + reprocessedMessage.getId() + " encaminhada para reprocessamento com sucesso.");
+            return ResponseEntity.ok("Message " + reprocessedMessage.getId() + " submitted for reprocessing.");
         } catch (IllegalArgumentException | IllegalStateException e) {
-            // Retorna 400 Bad Request se a mensagem não existir ou não estiver em FAILED
             return ResponseEntity.badRequest().body(e.getMessage());
         } catch (Exception e) {
-            // Retorna 500 se o RabbitMQ estiver fora do ar no momento da republicação
-            return ResponseEntity.internalServerError().body("Erro ao tentar reprocessar: " + e.getMessage());
+            return ResponseEntity.internalServerError().body("Error trying to reprocess: " + e.getMessage());
         }
     }
 }

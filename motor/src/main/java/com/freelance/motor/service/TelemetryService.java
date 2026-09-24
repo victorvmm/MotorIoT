@@ -23,7 +23,7 @@ public class TelemetryService {
 
     private final String email;
 
-    public TelemetryService(TelemetryRepository teleRepo, MessageService msgService, @Value("${limit_temp}") double value, @Value("${email}") String email) {
+    public TelemetryService(TelemetryRepository teleRepo, MessageService msgService, @Value("${limit_temp}") double value, @Value("${aws.ses.sender-email}") String email) {
         this.teleRepo = teleRepo;
         this.msgService = msgService;
         this.limit_temperature = value;

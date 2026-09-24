@@ -1,8 +1,7 @@
 #include <WiFi.h>
 #include <HTTPClient.h>
-#include <OneWire.h>
-#include <DallasTemperature.h>
-#include "secrets.h" 
+#include <DHT.h>
+#include "secrets.h"
 
 const char *ssid = WIFI_SSID;
 const char *password = WIFI_PASS;
@@ -11,14 +10,17 @@ const char* url = API_URL;
 const unsigned long interval = 30000;
 unsigned long lastRead = 0;
 
-#define ONE_WIRE_BUS 4
-OneWire oneWire(ONE_WIRE_BUS);
-DallasTemperature sensors(&oneWire);
+// Configuração do pino e modelo do sensor
+#define DHTPIN 4
+#define DHTTYPE DHT22 // O AM2302 equivale ao DHT22
+
+DHT dht(DHTPIN, DHTTYPE);
 
 void setup() {
   Serial.begin(115200);
   
-  sensors.begin();
+  // Inicializa o sensor AM2302 / DHT22
+  dht.begin();
 
   Serial.print("Connecting to wifi");
   WiFi.begin(ssid, password);
@@ -37,10 +39,10 @@ void loop() {
   if (millis() - lastRead >= interval) {
     lastRead = millis();
     
-    sensors.requestTemperatures(); 
-    float temperature = sensors.getTempCByIndex(0);
+    // Leitura da temperatura em Celsius
+    float temperature = dht.readTemperature();
 
-    if (temperature == DEVICE_DISCONNECTED_C) {
+    if (isnan(temperature)) {
       Serial.println("Reading error.");
       return;
     }

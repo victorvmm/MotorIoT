@@ -11,13 +11,3 @@ Motor de notificações via serviço de mensageria + IoT
    * service: services (queue data, telemetry rule)
    * worker: queue messages, perform HTTP calls
 
-## On-going:
- - Learn and implement RestTemplate
-
-## To-do list:
- - Create SES url for email sending
- - Implement API receiving POST from ESP32 and sending to SES
- - Make ESP32 + Sensor circuit
- - Create tests and CI/CD pipeline (github actions)
- - Change db name
- - AWS deploy
