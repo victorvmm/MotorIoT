@@ -78,7 +78,6 @@ public class RabbitMQWorker {
                         .build())
                 .build();
 
-        // Dispara o e-mail pela API do SES
         sesV2Client.sendEmail(emailRequest);
     }
 }
