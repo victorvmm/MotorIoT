@@ -16,6 +16,6 @@ public record NotificationDTO (
     String template,
 
     @NotNull(message="Mapa de variáveis dinâmicas é obrigatório")
-    Map<String, Double> variables
+    Map<String, Object> variables
 
 ){}

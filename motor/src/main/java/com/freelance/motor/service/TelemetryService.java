@@ -36,8 +36,9 @@ public class TelemetryService {
         Telemetry telemetry = new Telemetry(dto.truckId(), dto.temperature(), LocalDateTime.now(ZoneId.of("America/Sao_Paulo")));
 
         if (telemetry.getTemperature() > limit_temperature){
-            HashMap<String,Double> map = new HashMap<>();
-            map.put(telemetry.getTruckId(), telemetry.getTemperature());
+            HashMap<String,Object> map = new HashMap<>();
+            map.put("Truck ID", telemetry.getTruckId());
+            map.put("Temperature", telemetry.getTemperature());
             NotificationDTO notificationDTO = new NotificationDTO("EMAIL", email, "HIGH_TEMPERATURE_ALERT", map);
             msgService.registerNotification(notificationDTO);
         }

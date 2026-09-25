@@ -32,6 +32,7 @@ public class MessageService {
                 LocalDateTime.now(ZoneId.of("America/Sao_Paulo")),
                 LocalDateTime.now(ZoneId.of("America/Sao_Paulo"))
         );
+        message.setVariables(dto.variables());
         Messages savedMessage = msgRepo.save(message);
         rabbitTemplate.convertAndSend(RabbitMQConfig.EXCHANGE, RabbitMQConfig.ROUTING_KEY, savedMessage);
     }

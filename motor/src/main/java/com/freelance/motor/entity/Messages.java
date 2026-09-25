@@ -40,7 +40,7 @@ public class Messages {
 
     @JdbcTypeCode(SqlTypes.JSON)
     @Column(columnDefinition="jsonb", name="variables")
-    private Map<String, Double> variables;
+    private Map<String, Object> variables;
 
     @Column(name="status_msg")
     @Enumerated(EnumType.STRING)
@@ -81,7 +81,7 @@ public class Messages {
         return sb.toString();
     }
 
-    public void setVariables(String truckId, double temperature){
-        this.variables.put(truckId, temperature);
+    public void setVariables(Map<String, Object> variables){
+        this.variables = variables;
     }
 }
