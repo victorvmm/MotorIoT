@@ -1,6 +1,6 @@
 # 🚚 Multichannel Notification Engine & IoT Telemetry
 
-An **Event-Driven** system built with **Java 25** and **Spring Boot** designed for high-resilience asynchronous notification processing and real-time refrigerated fleet telemetry monitoring.
+An **Event-Driven** system built with **Java 25** and **Spring Boot** designed for high-resilience asynchronous notification processing and real-time fleet telemetry monitoring.
 
 ---
 
