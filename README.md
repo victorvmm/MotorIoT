@@ -38,7 +38,7 @@ An **Event-Driven** system built with **Java 25** and **Spring Boot** designed f
                         │
                         ▼
             [ External Provider ]
-             (AWS SES / Twilio)
+                 ( AWS SES )
 ```      
 
 ### The System Flow
