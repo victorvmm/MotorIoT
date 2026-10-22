@@ -12,7 +12,7 @@ An **Event-Driven** system built with **Java 25** and **Spring Boot** designed f
  - Database: PostgreSQL
  - Infrastructure: Docker and Docker Compose
  - Resilience: Spring Retry
- - Email Integration: AWS SES via AWS SDK
+ - SMS Integration: AWS SNS via AWS SDK
 
 
 ## 🏗 System Architecture & Flow
@@ -38,7 +38,7 @@ An **Event-Driven** system built with **Java 25** and **Spring Boot** designed f
                         │
                         ▼
             [ External Provider ]
-                 ( AWS SES )
+                 ( AWS SNS )
 ```      
 
 ### The System Flow
@@ -84,7 +84,7 @@ motor-notificacoes/
 ```
 
  #### Layer Details:
- - config/: Folder for system configuration classes. Here you define RabbitMQ connection settings (like Exchanges and Queues) via Spring AMQP, API documentation and SES Client configuration.
+ - config/: Folder for system configuration classes. Here you define RabbitMQ connection settings (like Exchanges and Queues) via Spring AMQP, API documentation and SNS Client configuration.
  - controller/: The Web layer of the application where classes annotated with @RestController reside. It includes the NotificationController responding on the /api/v1/notification endpoint returning HTTP 202 (Accepted) instantly. It also includes the ingestion endpoint (e.g., /api/v1/telemetry) responsible for receiving regular POST requests sent by the truck, and the endpoint responsible for reprocessing failed messages.
  - dto/: Data transfer objects layer, like the NotificationDTO. It is essential for applying request validations (via spring-boot-starter-validation) and ensuring critical fields are not blank.
  - entity/: Where classes annotated with @Entity reside for relational mapping. It includes the entity representing the notifications table (with the variables column supporting dynamic data) and the entity representing the telemetry table. It also contains the Enums that control the sending status in the database (PENDING, SENT, FAILED).
@@ -96,4 +96,4 @@ motor-notificacoes/
 ## 🎯 Project Purpose
 This project simulates a real-world, production-ready environment solving a critical business challenge: ensuring the resilient, asynchronous dispatch of communications without blocking core application workflows.
 
-Furthermore, it integrates an IoT layer designed for fleet monitoring. By utilizing low-cost ESP32 microcontrollers paired with AM2302 temperature and humidity sensors, the system continuously ingests telemetry data from trucks. When a critical temperature threshold is breached, the telemetry service automatically generates an alert payload and queues it through the Multichannel Notification Engine, which then reliably dispatches the alert via AWS SES, even in the event of external API instabilities.
+Furthermore, it integrates an IoT layer designed for fleet monitoring. By utilizing low-cost ESP32 microcontrollers paired with AM2302 temperature and humidity sensors, the system continuously ingests telemetry data from trucks. When a critical temperature threshold is breached, the telemetry service automatically generates an alert payload and queues it through the Multichannel Notification Engine, which then reliably dispatches the alert via AWS SNS, even in the event of external API instabilities.

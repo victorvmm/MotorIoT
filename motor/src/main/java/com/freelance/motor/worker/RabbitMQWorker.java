@@ -12,27 +12,20 @@ import com.freelance.motor.entity.StatusEnum;
 import com.freelance.motor.repository.MessageRepository;
 
 import software.amazon.awssdk.core.exception.SdkException;
-import software.amazon.awssdk.services.sesv2.SesV2Client;
-import software.amazon.awssdk.services.sesv2.model.Body;
-import software.amazon.awssdk.services.sesv2.model.Content;
-import software.amazon.awssdk.services.sesv2.model.Destination;
-import software.amazon.awssdk.services.sesv2.model.EmailContent;
-import software.amazon.awssdk.services.sesv2.model.Message;
-import software.amazon.awssdk.services.sesv2.model.SendEmailRequest;
+import software.amazon.awssdk.services.sns.SnsClient;
+import software.amazon.awssdk.services.sns.model.PublishRequest;
 
 @Component
 public class RabbitMQWorker {
     private final MessageRepository messageRepository;
+    private final SnsClient snsClient;
 
+    @Value("${aws.sns.topic-arn}")
+    private String topicArn;
 
-    private final SesV2Client sesV2Client;
-
-    @Value("${aws.ses.sender-email}")
-    private String senderEmail;
-
-    public RabbitMQWorker(MessageRepository messageRepository, SesV2Client client) {
+    public RabbitMQWorker(MessageRepository messageRepository, SnsClient client) {
         this.messageRepository = messageRepository;
-        this.sesV2Client = client;
+        this.snsClient = client;
     }
 
     @RabbitListener(queues = RabbitMQConfig.QUEUE_NAME)
@@ -42,8 +35,8 @@ public class RabbitMQWorker {
         backoff = @Backoff(delay = 2000, multiplier = 2)
     )
     public void processNotification(Messages message){
-        if ("EMAIL".equalsIgnoreCase(message.getChannel())){
-            sendEmailViaSES(message);
+        if ("SMS".equalsIgnoreCase(message.getChannel())){
+            sendNotificationViaSNS(message);
         }
 
         message.setStatusMsg(StatusEnum.SENT);
@@ -60,24 +53,16 @@ public class RabbitMQWorker {
         System.out.println("Notification status updated: FAILED");
     }
 
-    private void sendEmailViaSES(Messages message){
-        String emailSubject = "System alert - Template: " + message.getTemplate();
-        String emailBody = "Notification processed. Data: " + message.getVariables();
-        SendEmailRequest emailRequest = SendEmailRequest.builder()
-            .fromEmailAddress(senderEmail)
-            .destination(Destination.builder()
-            .toAddresses(message.getRecipient())
-                        .build())
-                .content(EmailContent.builder()
-                        .simple(Message.builder()
-                                .subject(Content.builder().data(emailSubject).build())
-                                .body(Body.builder()
-                                        .text(Content.builder().data(emailBody).build())
-                                        .build())
-                                .build())
-                        .build())
-                .build();
+    private void sendNotificationViaSNS(Messages message){
+        String subject = "System alert - Template: " + message.getTemplate();
+        String messageBody = "Notification processed. Recipient: " + message.getRecipient() + ". Data: " + message.getVariables();
+        
+        PublishRequest publishRequest = PublishRequest.builder()
+            .topicArn(topicArn)
+            .subject(subject)
+            .message(messageBody)
+            .build();
 
-        sesV2Client.sendEmail(emailRequest);
+        snsClient.publish(publishRequest);
     }
 }

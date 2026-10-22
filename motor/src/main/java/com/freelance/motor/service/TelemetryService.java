@@ -21,13 +21,13 @@ public class TelemetryService {
 
     private final double limit_temperature;
 
-    private final String email;
+    private final String number;
 
-    public TelemetryService(TelemetryRepository teleRepo, MessageService msgService, @Value("${limit_temp}") double value, @Value("${aws.ses.sender-email}") String email) {
+    public TelemetryService(TelemetryRepository teleRepo, MessageService msgService, @Value("${limit_temp}") double value, @Value("${number}") String number) {
         this.teleRepo = teleRepo;
         this.msgService = msgService;
         this.limit_temperature = value;
-        this.email = email;
+        this.number = number;
     }
 
     @Transactional
@@ -39,7 +39,7 @@ public class TelemetryService {
             HashMap<String,Object> map = new HashMap<>();
             map.put("Truck ID", telemetry.getTruckId());
             map.put("Temperature", telemetry.getTemperature());
-            NotificationDTO notificationDTO = new NotificationDTO("EMAIL", email, "HIGH_TEMPERATURE_ALERT", map);
+            NotificationDTO notificationDTO = new NotificationDTO("SMS", number, "HIGH_TEMPERATURE_ALERT", map);
             msgService.registerNotification(notificationDTO);
         }
 

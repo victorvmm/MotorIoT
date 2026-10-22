@@ -64,7 +64,7 @@
 		</dependency>
 		<dependency>
 			<groupId>software.amazon.awssdk</groupId>
-			<artifactId>sesv2</artifactId>
+			<artifactId>sns</artifactId>
 			<version>2.20.0</version>
 		</dependency>
 		<dependency>
