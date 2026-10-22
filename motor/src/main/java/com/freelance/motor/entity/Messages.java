@@ -15,13 +15,9 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import lombok.Getter;
-import lombok.Setter;
 
 @Entity
 @Table(name="messages")
-@Getter
-@Setter
 public class Messages {
     
     @Id
@@ -62,6 +58,67 @@ public class Messages {
         this.variables = new HashMap<>();
         this.statusMsg = StatusEnum.PENDING;
         this.created_at = created_at;
+        this.updated_at = updated_at;
+    }
+
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getChannel() {
+        return channel;
+    }
+
+    public void setChannel(String channel) {
+        this.channel = channel;
+    }
+
+    public String getRecipient() {
+        return recipient;
+    }
+
+    public void setRecipient(String recipient) {
+        this.recipient = recipient;
+    }
+
+    public String getTemplate() {
+        return template;
+    }
+
+    public void setTemplate(String template) {
+        this.template = template;
+    }
+
+    public Map<String, Object> getVariables() {
+        return variables;
+    }
+
+    public StatusEnum getStatusMsg() {
+        return statusMsg;
+    }
+
+    public void setStatusMsg(StatusEnum statusMsg) {
+        this.statusMsg = statusMsg;
+    }
+
+    public LocalDateTime getCreated_at() {
+        return created_at;
+    }
+
+    public void setCreated_at(LocalDateTime created_at) {
+        this.created_at = created_at;
+    }
+
+    public LocalDateTime getUpdated_at() {
+        return updated_at;
+    }
+
+    public void setUpdated_at(LocalDateTime updated_at) {
         this.updated_at = updated_at;
     }
 
