@@ -52,7 +52,7 @@ An **Event-Driven** system built with **Java 25** and **Spring Boot** designed f
  - It is a component that runs in the background and is responsible for processing the sending of messages without overloading the network or the main application system.
  - Message Consumption: Using the @RabbitListener annotation, the Worker listens to and consumes messages posted in the RabbitMQ queue.
  - Content Preparation: It joins the template column (the shell of the notification) with the variables column (truck's license plate and temperature) to fill in the blanks of the final message.
- - External HTTP Integration: The Worker makes the actual HTTP call to AWS SES using AWS SDK.
+ - External HTTP Integration: The Worker makes the actual HTTP call to AWS SNS using AWS SDK.
  - Success Handling: If the third-party API processes and delivers the message perfectly, the Worker updates the record history in the PostgreSQL database to the SENT status.
  - Resilience & Fault Tolerance: If there is network unavailability or the external API fails, the system enters a retry mechanism (re-sending attempts with progressive intervals) managed by Spring Retry.
  - Error Queuing (DLQ): If retry attempts are definitively exhausted, the message is moved to a Dead Letter Queue (DLQ) in RabbitMQ to avoid blocking subsequent sends. When this occurs, the status in the database is updated to FAILED.

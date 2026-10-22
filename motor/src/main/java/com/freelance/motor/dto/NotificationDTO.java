@@ -6,16 +6,16 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
 public record NotificationDTO (
-    @NotBlank(message="O canal de notificações é obrigatório.")
+    @NotBlank(message="Notification channel required.")
     String channel,
 
-    @NotBlank(message="O destinatário é obrigatório")
+    @NotBlank(message="Recipient required.")
     String recipient,
 
-    @NotBlank(message="O template da mensagem é obrigatório")
+    @NotBlank(message="Message template required.")
     String template,
 
-    @NotNull(message="Mapa de variáveis dinâmicas é obrigatório")
+    @NotNull(message="Dynamic variables map required.")
     Map<String, Object> variables
 
 ){}
